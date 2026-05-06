@@ -3,7 +3,16 @@ var CLOCK_ELEMENT = document.querySelector('.clock');
 var CLOCK_PROGRESS_ELEMENT = document.querySelector('.clock-ring-progress');
 var EMOTE_TIMEOUT;
 var CLOCK_CIRCUMFERENCE = 339.292;
-var LIST_GIFS = [];
+var LIST_GIFS = [
+    "Showering-in-money.gif",
+    "cash.gif",
+    "cooking-cook.gif",
+    "gross.gif",
+    "larroude.gif",
+    "laught.gif",
+    "money-rain-kim-kardashian.gif",
+    "money.gif"
+];
 var LAST_GIF = -1;
 
 var LIST_NAME = "DATA";
@@ -270,14 +279,16 @@ function updateGif() {
 $(document).ready(function () {
     setDefaultInfo();
 
-    $.post('scandir.php', function (res) {
-        if (res.success) {
-            LIST_GIFS = res.files;
-            updateGif();
-        } else {
-            console.error('Erro');
-        }
-    });
+    updateGif();
+
+    // $.post('scandir.php', function (res) {
+    //     if (res.success) {
+    //         LIST_GIFS = res.files;
+    //         updateGif();
+    //     } else {
+    //         console.error('Erro');
+    //     }
+    // });
 
     setInterval(updateTime, 1000);
     updateTime();
