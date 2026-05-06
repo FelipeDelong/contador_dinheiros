@@ -93,11 +93,11 @@ body {
     color: inherit;
 }
 
-#base_money{
+#base_money {
     text-align: center;
 }
 
-#btn_save_config{
+#btn_save_config {
     color: var(--text-light);
     background-color: var(--btn-color);
 }
@@ -265,5 +265,41 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media (min-width: 768px) {
+
+    .config_fields.is-open {
+        opacity: 1;
+        font-size: 2.5vh;
+        width: 40vh;
+    }
+
+    .form-control{
+        font-size: 2.5vh;
+    }
+
+    .div_emote {
+        padding: 3vh;
+        left: 0vh;
+    }
+
+    .partial_money {
+        font-size: 3vh;
+        line-height: 1.1;
+        animation: partial-money-fade-in 0.45s ease-out;
+    }
+
+    .plus {
+        font-size: 2vh;
+    }
+
+    .money_conter {
+        font-size: 4vh;
+        right: -1vh;
+        bottom: 5vh;
+        width: max-content;
+        max-width: 40vw;
     }
 }
