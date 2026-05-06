@@ -109,7 +109,6 @@ function calculateMoney(type) {
                 </div>`;
         }
         $('.div_partial_money').html(html);
-
     }
 
     $(".total_money").text("R$ " + totalMoney.toFixed(2));
