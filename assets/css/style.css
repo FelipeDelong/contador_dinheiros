@@ -286,7 +286,7 @@ body {
     }
 
     .partial_money {
-        font-size: 3vh;
+        font-size: 2.5vh;
         line-height: 1.1;
         animation: partial-money-fade-in 0.45s ease-out;
     }
@@ -297,9 +297,9 @@ body {
 
     .money_conter {
         font-size: 4vh;
-        right: -1vh;
+        right: -4vh;
         bottom: 5vh;
         width: max-content;
-        max-width: 40vw;
+        max-width: 50vw;
     }
 }
