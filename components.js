@@ -128,8 +128,9 @@ function saveConfig(data) {
     saveStoredData(data, function () {
         const Toast = Swal.mixin({
             toast: true,
-            position: "right",
+            position: "center",
             showConfirmButton: false,
+            width: "50vh",
             timer: 1000,
             timerProgressBar: true,
             didOpen: (toast) => {
@@ -144,8 +145,8 @@ function saveConfig(data) {
         Toast.fire({
             icon: "success",
             title: "Salvo Com Sucesso",
-            background: "#19191a",
-            color: "#e1e1e1",
+            background: THEME[CHOSE_THEME-1]["--bg-page"],
+            color: THEME[CHOSE_THEME-1]["--text-light"],
         });
     });
 }
@@ -217,8 +218,8 @@ function calculateMoney(type) {
             position: "top",
             text: 'Você SOBREVIVEU a mais um Plantãoooo!',
             footer: '(Atualize o horário para um novo CONTADOR DE DINHEIROS)',
-            background: THEME[CHOSE_THEME]["--bg-page"],
-            color: THEME[CHOSE_THEME]["--text-light"],
+            background: THEME[CHOSE_THEME-1]["--bg-page"],
+            color: THEME[CHOSE_THEME-1]["--text-light"],
             showCloseButton: false,
             showConfirmButton: false,
         });
@@ -248,9 +249,12 @@ function setDefaultInfo() {
 
         CHOSE_THEME = data.theme || 1;
 
-        calculateMoney(1);
         changeTheme();
         setTheme();
+
+        setTimeout(function () {
+            calculateMoney(1);
+        }, 500);
 
     } catch (error) {
         console.log(error);
@@ -407,8 +411,8 @@ $(document).on("click", "#btn_save_config", function () {
         Toast.fire({
             icon: 'error',
             title: 'Por favor, preencha todos os campos corretamente.',
-            background: THEME[CHOSE_THEME]["--bg-page"],
-            color: THEME[CHOSE_THEME]["--text-light"],
+            background: THEME[CHOSE_THEME-1]["--bg-page"],
+            color: THEME[CHOSE_THEME-1]["--text-light"],
         });
     } else {
         var data = {
