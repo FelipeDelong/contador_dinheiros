@@ -19,6 +19,73 @@ var LIST_NAME = "DATA";
 var INICIAL_DATE;
 var FINAL_DATE;
 var BASE_MONEY;
+var CHOSE_THEME;
+var THEME = [{
+    id: 1,
+    name: "Twilight",
+    "--bg-page": "#2D1D4A",
+    "--emote-bg": "#6B166A",
+    "--text-light": "#ffffff",
+    "--clock-face": "#333333",
+    "--clock-ring-soft": "rgba(255, 255, 255, 0.18)",
+    "--clock-ring": "#FC03AD",
+    "--btn-color": "#CC0898",
+    "--money-color": "#02DE2E",
+    "--shadow-dark": "rgba(0, 0, 0, 0.5)"
+},
+{
+    id: 2,
+    name: "Nurture Nature",
+    "--bg-page": "#0D1F01",
+    "--emote-bg": "#233918",
+    "--text-light": "#ffffff",
+    "--clock-face": "#333333",
+    "--clock-ring-soft": "rgba(255, 255, 255, 0.18)",
+    "--clock-ring": "#8CF83A",
+    "--btn-color": "#3C9000",
+    "--money-color": "#8EC51F",
+    "--shadow-dark": "rgba(0, 0, 0, 0.5)"
+},
+{
+    id: 3,
+    name: "Deep Blue",
+    "--bg-page": "#011D28",
+    "--emote-bg": "#183446",
+    "--text-light": "#ffffff",
+    "--clock-face": "#333333",
+    "--clock-ring-soft": "rgba(255, 255, 255, 0.18)",
+    "--clock-ring": "#0AC2FF",
+    "--btn-color": "#046E8F",
+    "--money-color": "#1FFFE1",
+    "--shadow-dark": "rgba(0, 0, 0, 0.5)"
+},
+{
+    id: 4,
+    name: "Orange Sky",
+    "--bg-page": "#290801",
+    "--emote-bg": "#452317",
+    "--text-light": "#ffffff",
+    "--clock-face": "#333333",
+    "--clock-ring-soft": "rgba(255, 255, 255, 0.18)",
+    "--clock-ring": "#FF441F",
+    "--btn-color": "#8F1904",
+    "--money-color": "#FF1F33",
+    "--shadow-dark": "rgba(0, 0, 0, 0.5)"
+},
+{
+    id: 5,
+    name: "Dark",
+    "--bg-page": "#222222",
+    "--emote-bg": "#4d4c4c",
+    "--text-light": "#ffffff",
+    "--clock-face": "#333333",
+    "--clock-ring-soft": "rgba(255, 255, 255, 0.18)",
+    "--clock-ring": "#E0E0E0",
+    "--btn-color": "#707070",
+    "--money-color": "#FFFFFF",
+    "--shadow-dark": "rgba(0, 0, 0, 0.5)"
+},
+];
 
 window.animarEmote = animarEmote;
 
@@ -26,6 +93,27 @@ function showTime() {
     updateGif();
     calculateMoney();
     animarEmote();
+}
+
+function setTheme() {
+    var html = "";
+    $.each(THEME, function (key, value) {
+        var selected = CHOSE_THEME == value.id ? "selected" : "";
+        html += `<option value="` + value.id + `" ` + selected + `>` + value.name + `</option>`;
+    });
+    $("#theme").html(html);
+    $(".select2").select2();
+}
+
+function changeTheme() {
+    var index = THEME.indexOf(THEME.find((element) => element.id == CHOSE_THEME));
+    var data = THEME[index];
+
+    Object.keys(data).forEach(function (key) {
+        if (key.startsWith("--")) {
+            document.documentElement.style.setProperty(key, data[key]);
+        }
+    });
 }
 
 function saveStoredData(data, callback) {
@@ -129,8 +217,8 @@ function calculateMoney(type) {
             position: "top",
             text: 'Você SOBREVIVEU a mais um Plantãoooo!',
             footer: '(Atualize o horário para um novo CONTADOR DE DINHEIROS)',
-            background: "#2D1D4A",
-            color: "#e1e1e1",
+            background: THEME[CHOSE_THEME]["--bg-page"],
+            color: THEME[CHOSE_THEME]["--text-light"],
             showCloseButton: false,
             showConfirmButton: false,
         });
@@ -158,7 +246,11 @@ function setDefaultInfo() {
         FINAL_DATE = buildDateTime(data.dt_final, data.hr_final);
         BASE_MONEY = Number(data.base_money || 0);
 
+        CHOSE_THEME = data.theme || 1;
+
         calculateMoney(1);
+        changeTheme();
+        setTheme();
 
     } catch (error) {
         console.log(error);
@@ -281,18 +373,14 @@ $(document).ready(function () {
 
     updateGif();
 
-    // $.post('scandir.php', function (res) {
-    //     if (res.success) {
-    //         LIST_GIFS = res.files;
-    //         updateGif();
-    //     } else {
-    //         console.error('Erro');
-    //     }
-    // });
-
     setInterval(updateTime, 1000);
     updateTime();
     syncClockProgress();
+});
+
+$(document).on("change", "#theme", function () {
+    CHOSE_THEME = $(this).val();
+    changeTheme();
 });
 
 $(document).on('click', '.clock', function () {
@@ -319,11 +407,12 @@ $(document).on("click", "#btn_save_config", function () {
         Toast.fire({
             icon: 'error',
             title: 'Por favor, preencha todos os campos corretamente.',
-            background: "#2D1D4A",
-            color: "#e1e1e1",
+            background: THEME[CHOSE_THEME]["--bg-page"],
+            color: THEME[CHOSE_THEME]["--text-light"],
         });
     } else {
         var data = {
+            theme: CHOSE_THEME,
             dt_inicial: dt_inicial,
             hr_inicial: hr_inicial,
             dt_final: dt_final,
